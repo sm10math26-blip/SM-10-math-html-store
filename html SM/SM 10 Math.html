@@ -315,7 +315,7 @@ body { display:flex; height:100vh; overflow:hidden; }
 </div>
 <div class="subList">
 <div onclick="loadSub('C101_T101')">TOPPER’S SPECIAL NOTES</div>
-<div onclick="loadSub('C101_Q101')">SUBJECTIVE QUESTION </div>
+<div onclick="loadSub('C101_Q101')"> QUESTION </div>
 <div onclick="loadSub('C1_N1')">NCERT</div>
 <div onclick="loadSub('C1_A1')">NCERT SOLUTION</div>
 </div>
@@ -975,6 +975,59 @@ if(savedPage){
   controls.style.display = 'flex';
   if (window.innerWidth <= 1180) sidebar.classList.remove('open');
 }
+
+
+
+
+
+
+
+
+
+
+function loadSub(code){
+  currentCode = code;
+
+  // Show solution button only for _Q
+  const solutionBtn = document.getElementById("solutionBtn");
+  if(code.includes("_Q")){
+    solutionBtn.style.display = "inline-block";
+  } else {
+    solutionBtn.style.display = "none";
+  }
+
+  currentList = data[code] || [];
+  preloadFirst(currentList);
+
+  index = 0;
+
+  // Restore last page if saved
+  let savedPage = localStorage.getItem("page_" + code);
+  if(savedPage){
+    index = parseInt(savedPage);
+  }
+
+  imgX = imgY = 0;
+
+  exitPDF();
+  loadPage(true); // ⭐ Load the page first
+
+  controls.style.display = 'flex';
+  if (window.innerWidth <= 1180) sidebar.classList.remove('open');
+
+  // ⭐ Show popup AFTER page loads (non-blocking)
+  if(code.includes("_Q")){
+    setTimeout(() => {
+      alert("Click the brain icon 🧠 to open the solution finder.\n\nEnter your question code or type your question to get the solution instantly.");
+    }, 200); // 200ms delay is enough for page to render
+  }
+}
+
+
+
+
+
+
 
 
 
